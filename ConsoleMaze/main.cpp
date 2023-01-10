@@ -18,12 +18,20 @@ public:
 
 };
 
+enum WallBit : uint8_t
+{
+	RIGHT_WALL_BIT = 0,
+	BOTTOM_WALL_BIT,
+	LEFT_WALL_BIT,
+	TOP_WALL_BIT
+};
+
 enum Wall : uint8_t
 {
-	RIGHT_WALL	= 1 << 0, // 0001
-	BOTTOM_WALL = 1 << 1, // 0010
-	LEFT_WALL	= 1 << 2, // 0100
-	TOP_WALL	= 1 << 3  // 1000
+	RIGHT_WALL	= 1 << RIGHT_WALL_BIT,	// 0001
+	BOTTOM_WALL = 1 << BOTTOM_WALL_BIT, // 0010
+	LEFT_WALL	= 1 << LEFT_WALL_BIT,	// 0100
+	TOP_WALL	= 1 << TOP_WALL_BIT		// 1000
 };
 
 int calcBufferForDimension(int dimension);
