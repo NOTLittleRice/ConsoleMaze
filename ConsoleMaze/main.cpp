@@ -54,9 +54,7 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 		for (int j = 0; j < width; j++) // x dimension within maze
 		{
 			auto walls = (maze + i*width + j)->GetWalls();
-
 			char charUsed = ' ';
-			//if (!(i % 2) && !(j % 2)) // if in a corner
 			int topLeftCorner =
 				2 * j + // shift based on x dimension within maze
 				2 * i * rowPixelWidth;// shift based on y dimension within maze
@@ -139,7 +137,7 @@ void emptyCenter()
 		MazeUnit(BOTTOM_WALL | RIGHT_WALL | LEFT_WALL),
 		MazeUnit(BOTTOM_WALL | RIGHT_WALL | LEFT_WALL | TOP_WALL),
 	};
-	//std::cout << (int)h.GetWalls();
+	
 	populateBuffer(h, mazeBuffer, width, height);
 
 	int bufferWidth = calcBufferForDimension(width);
@@ -180,7 +178,7 @@ void S()
 		MazeUnit(RIGHT_WALL | BOTTOM_WALL),
 
 	};
-	//std::cout << (int)h.GetWalls();
+	
 	populateBuffer(h, mazeBuffer, width, height);
 
 	int bufferWidth = calcBufferForDimension(width);
