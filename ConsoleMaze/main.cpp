@@ -47,6 +47,7 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 	char wallChar = '|';
 	char floorChar = '-';
 	char unoccupiedChar = ' ';
+	char centerChar = 'o';
 	
 	for (int i = 0; i < height; i++) // y dimension within maze
 	{
@@ -105,7 +106,7 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 			buffer[topLeftCorner + 1] = charUsed;
 
 			//fill in center
-			buffer[topLeftCorner + rowPixelWidth + 1] = 'o';
+			buffer[topLeftCorner + rowPixelWidth + 1] = centerChar;
 		}
 	}
 }
