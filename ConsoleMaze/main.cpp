@@ -46,6 +46,7 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 	char cornerChar = '*';
 	char wallChar = '|';
 	char floorChar = '-';
+	char unoccupiedChar = ' ';
 	
 	for (int i = 0; i < height; i++) // y dimension within maze
 	{
@@ -66,50 +67,45 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 
 			if (((walls & RIGHT_WALL) >> RIGHT_WALL_BIT) % 2)
 			{
-				//charUsed = '|';
 				charUsed = wallChar;
 			}
 			else
 			{
-				charUsed = ' ';
+				charUsed = unoccupiedChar;
 			}
 			buffer[topLeftCorner + rowPixelWidth + 2] = charUsed;
 
 			if (((walls & LEFT_WALL) >> LEFT_WALL_BIT) % 2)
 			{
-				//charUsed = '|';
 				charUsed = wallChar;
 			}
 			else
 			{
-				charUsed = ' ';
+				charUsed = unoccupiedChar;
 			}
 			buffer[topLeftCorner + rowPixelWidth] = charUsed;
 
 			if (((walls & BOTTOM_WALL) >> BOTTOM_WALL_BIT) % 2)
 			{
-				//charUsed = '-';
 				charUsed = floorChar;
 			}
 			else
 			{
-				charUsed = ' ';
+				charUsed = unoccupiedChar;
 			}
 			buffer[topLeftCorner + 2 * rowPixelWidth + 1] = charUsed;
 
 			if (((walls & TOP_WALL) >> TOP_WALL_BIT) % 2)
 			{
-				//charUsed = '-';
 				charUsed = floorChar;
 			}
 			else {
-				charUsed = ' ';
+				charUsed = unoccupiedChar;
 			}
 			buffer[topLeftCorner + 1] = charUsed;
 
-
 			//fill in center
-			buffer[topLeftCorner + rowPixelWidth + 1] = ' ';
+			buffer[topLeftCorner + rowPixelWidth + 1] = 'o';
 		}
 	}
 }
