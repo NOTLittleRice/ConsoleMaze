@@ -11,7 +11,7 @@ public:
 		this->m_walls = walls;
 	}
 
-	__int8 GetWalls()
+	uint8_t GetWalls()
 	{
 		return this->m_walls;
 	}
@@ -64,7 +64,7 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 			buffer[topLeftCorner + 2 * rowPixelWidth] = cornerChar; // bottom left corner of square
 			buffer[topLeftCorner + 2 * rowPixelWidth + 2] = cornerChar; // bottom right corner of square
 
-			if (((walls & RIGHT_WALL) >> 0) % 2)
+			if (((walls & RIGHT_WALL) >> RIGHT_WALL_BIT) % 2)
 			{
 				//charUsed = '|';
 				charUsed = wallChar;
@@ -75,7 +75,7 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 			}
 			buffer[topLeftCorner + rowPixelWidth + 2] = charUsed;
 
-			if (((walls & LEFT_WALL) >> 2) % 2)
+			if (((walls & LEFT_WALL) >> LEFT_WALL_BIT) % 2)
 			{
 				//charUsed = '|';
 				charUsed = wallChar;
@@ -86,7 +86,7 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 			}
 			buffer[topLeftCorner + rowPixelWidth] = charUsed;
 
-			if (((walls & BOTTOM_WALL) >> 1) % 2)
+			if (((walls & BOTTOM_WALL) >> BOTTOM_WALL_BIT) % 2)
 			{
 				//charUsed = '-';
 				charUsed = floorChar;
@@ -97,7 +97,7 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 			}
 			buffer[topLeftCorner + 2 * rowPixelWidth + 1] = charUsed;
 
-			if (((walls & TOP_WALL) >> 3) % 2)
+			if (((walls & TOP_WALL) >> TOP_WALL_BIT) % 2)
 			{
 				//charUsed = '-';
 				charUsed = floorChar;
