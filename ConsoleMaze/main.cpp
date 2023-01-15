@@ -1,4 +1,6 @@
 #include <iostream>
+#include "mazeChunkGeneration.h"
+#include "Wall.h"
 
 class MazeUnit
 {
@@ -18,20 +20,20 @@ public:
 
 };
 
-enum WallBit : uint8_t
+// Do not stage: only a basic idea
+class MazeChunk
 {
-	RIGHT_WALL_BIT = 0,
-	BOTTOM_WALL_BIT,
-	LEFT_WALL_BIT,
-	TOP_WALL_BIT
-};
+private:
+	MazeUnit* m_units;
+	int m_width, m_height;
 
-enum Wall : uint8_t
-{
-	RIGHT_WALL	= 1 << RIGHT_WALL_BIT,	// 0001
-	BOTTOM_WALL = 1 << BOTTOM_WALL_BIT, // 0010
-	LEFT_WALL	= 1 << LEFT_WALL_BIT,	// 0100
-	TOP_WALL	= 1 << TOP_WALL_BIT		// 1000
+public:
+	MazeChunk(MazeUnit* units, int width, int height)
+	{
+		this->m_units = units;
+		this->m_width = width;
+		this->m_height = height;
+	}
 };
 
 int calcBufferForDimension(int dimension);
@@ -43,11 +45,11 @@ int calcBufferForDimension(int dimension);
 void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 {
 	int rowPixelWidth = calcBufferForDimension(width);
-	char cornerChar = '*';
+	char cornerChar = '+';
 	char wallChar = '|';
 	char floorChar = '-';
 	char unoccupiedChar = ' ';
-	char centerChar = 'o';
+	char centerChar = ' ';
 	
 	for (int i = 0; i < height; i++) // y dimension within maze
 	{
@@ -197,9 +199,55 @@ void S()
 	free(rowBuffer);
 }
 
+void LoadConfiguration(int width, int height, uint8_t* wallConfiguration)
+{
+	//int width = 2, height = 5; // represent dimensions of maze
+	char* mazeBuffer = (char*)malloc(calcBufferGridSize(width, height));
+
+	MazeUnit* h = (MazeUnit*)malloc(sizeof(MazeUnit) * width * height);
+
+	if (h == nullptr)
+	{
+		throw;
+	}
+
+	auto bounds = Coordinate{ width, height };
+	for (int y = 0; y < height; y++)
+	{
+		for (int x = 0; x < width; x++)
+		{
+			auto coords = Coordinate{ x, y };
+			int location = coordinateToIndex(coords, bounds);
+			h[location] = MazeUnit(wallConfiguration[location]);
+		}
+	}
+
+	populateBuffer(h, mazeBuffer, width, height);
+
+	int bufferWidth = calcBufferForDimension(width);
+	char* rowBuffer = (char*)malloc(bufferWidth + 1);
+	rowBuffer[bufferWidth] = '\0';
+	std::cout << std::endl;
+
+	int bufferHeight = calcBufferForDimension(height);
+	for (int row = 0; row < bufferHeight; row++)
+	{
+		strncpy_s(rowBuffer, bufferWidth + 1, mazeBuffer + (bufferWidth * row), bufferWidth);
+		std::cout << rowBuffer << std::endl;
+	}
+
+	free(mazeBuffer);
+	free(rowBuffer);
+}
+
 int main()
 {
-	emptyCenter();
-	std::cout << std::endl;
-	S();
+	//emptyCenter();
+	//std::cout << std::endl;
+	//S();
+
+	int width = 30;
+	int height = 10;
+	uint8_t* wallConfiguration = generateWallConfigurations(width, height);
+	LoadConfiguration(width, height, wallConfiguration);
 }
