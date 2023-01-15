@@ -36,7 +36,16 @@ public:
 	}
 };
 
-int calcBufferForDimension(int dimension);
+enum MAZE_UNIT_SIZE_IN_BUFFER
+{
+	//UNIT_WIDTH_IN_BUFFER = 4,
+	//UNIT_HEIGHT_IN_BUFFER = 2
+	UNIT_WIDTH_IN_BUFFER = 6,
+	UNIT_HEIGHT_IN_BUFFER = 4
+};
+
+int calcBufferForWidth(int width);
+int calcBufferForHeight(int height);
 
 // width and height describe dimensions of the maze
 // assumes the buffer correlates to the maze's dimensions where
@@ -44,7 +53,7 @@ int calcBufferForDimension(int dimension);
 // maze_height * 2 + 1 matches height
 void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 {
-	int rowPixelWidth = calcBufferForDimension(width);
+	int rowPixelWidth = calcBufferForWidth(width);
 	char cornerChar = '+';
 	char wallChar = '|';
 	char floorChar = '-';
@@ -58,13 +67,13 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 			auto walls = (maze + i*width + j)->GetWalls();
 			char charUsed = ' ';
 			int topLeftCorner =
-				2 * j + // shift based on x dimension within maze
-				2 * i * rowPixelWidth;// shift based on y dimension within maze
+				UNIT_WIDTH_IN_BUFFER * j + // shift based on x dimension within maze
+				UNIT_HEIGHT_IN_BUFFER * i * rowPixelWidth;// shift based on y dimension within maze
 				
 			buffer[topLeftCorner] = cornerChar; // top left corner of square
-			buffer[topLeftCorner + 2] = cornerChar; // top right corner of square
-			buffer[topLeftCorner + 2 * rowPixelWidth] = cornerChar; // bottom left corner of square
-			buffer[topLeftCorner + 2 * rowPixelWidth + 2] = cornerChar; // bottom right corner of square
+			buffer[topLeftCorner + UNIT_WIDTH_IN_BUFFER] = cornerChar; // top right corner of square
+			buffer[topLeftCorner + UNIT_HEIGHT_IN_BUFFER * rowPixelWidth] = cornerChar; // bottom left corner of square
+			buffer[topLeftCorner + UNIT_HEIGHT_IN_BUFFER * rowPixelWidth + UNIT_WIDTH_IN_BUFFER] = cornerChar; // bottom right corner of square
 
 			if (((walls & RIGHT_WALL) >> RIGHT_WALL_BIT) % 2)
 			{
@@ -74,7 +83,10 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 			{
 				charUsed = unoccupiedChar;
 			}
-			buffer[topLeftCorner + rowPixelWidth + 2] = charUsed;
+			for (int i = 1; i < UNIT_HEIGHT_IN_BUFFER; i++)
+			{
+				buffer[topLeftCorner + (rowPixelWidth * i) + UNIT_WIDTH_IN_BUFFER] = charUsed;
+			}
 
 			if (((walls & LEFT_WALL) >> LEFT_WALL_BIT) % 2)
 			{
@@ -84,7 +96,10 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 			{
 				charUsed = unoccupiedChar;
 			}
-			buffer[topLeftCorner + rowPixelWidth] = charUsed;
+			for (int i = 1; i < UNIT_HEIGHT_IN_BUFFER; i++)
+			{
+				buffer[topLeftCorner + rowPixelWidth * i] = charUsed;
+			}
 
 			if (((walls & BOTTOM_WALL) >> BOTTOM_WALL_BIT) % 2)
 			{
@@ -94,7 +109,10 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 			{
 				charUsed = unoccupiedChar;
 			}
-			buffer[topLeftCorner + 2 * rowPixelWidth + 1] = charUsed;
+			for (int i = 1; i < UNIT_WIDTH_IN_BUFFER; i++)
+			{
+				buffer[topLeftCorner + UNIT_HEIGHT_IN_BUFFER * rowPixelWidth + i] = charUsed;
+			}
 
 			if (((walls & TOP_WALL) >> TOP_WALL_BIT) % 2)
 			{
@@ -103,22 +121,34 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 			else {
 				charUsed = unoccupiedChar;
 			}
-			buffer[topLeftCorner + 1] = charUsed;
+			for (int i = 1; i < UNIT_WIDTH_IN_BUFFER; i++)
+			{
+				buffer[topLeftCorner + i] = charUsed;
+			}
 
 			//fill in center
-			buffer[topLeftCorner + rowPixelWidth + 1] = centerChar;
+			for (int x = 1; x < UNIT_WIDTH_IN_BUFFER; x++)
+			{
+				for (int y = 1; y < UNIT_HEIGHT_IN_BUFFER; y++)
+				buffer[topLeftCorner + rowPixelWidth * y + x] = centerChar;
+			}
 		}
 	}
 }
 
-int calcBufferForDimension(int dimension)
+int calcBufferForWidth(int width)
 {
-	return dimension * 2 + 1;
+	return width * UNIT_WIDTH_IN_BUFFER + 1;
+}
+
+int calcBufferForHeight(int height)
+{
+	return height * UNIT_HEIGHT_IN_BUFFER + 1;
 }
 
 int calcBufferGridSize(int width, int height)
 {
-	return calcBufferForDimension(width) * calcBufferForDimension(height);
+	return calcBufferForWidth(width) * calcBufferForHeight(height);
 }
 
 void emptyCenter()
@@ -142,12 +172,12 @@ void emptyCenter()
 	
 	populateBuffer(h, mazeBuffer, width, height);
 
-	int bufferWidth = calcBufferForDimension(width);
+	int bufferWidth = calcBufferForWidth(width);
 	char* rowBuffer = (char*)malloc(bufferWidth + 1);
 	rowBuffer[bufferWidth] = '\0';
 	std::cout << std::endl;
 
-	int bufferHeight = calcBufferForDimension(height);
+	int bufferHeight = calcBufferForHeight(height);
 	for (int row = 0; row < bufferHeight; row++)
 	{
 		strncpy_s(rowBuffer, bufferWidth + 1, mazeBuffer + (bufferWidth * row), bufferWidth);
@@ -183,12 +213,12 @@ void S()
 	
 	populateBuffer(h, mazeBuffer, width, height);
 
-	int bufferWidth = calcBufferForDimension(width);
+	int bufferWidth = calcBufferForWidth(width);
 	char* rowBuffer = (char*)malloc(bufferWidth + 1);
 	rowBuffer[bufferWidth] = '\0';
 	std::cout << std::endl;
 
-	int bufferHeight = calcBufferForDimension(height);
+	int bufferHeight = calcBufferForHeight(height);
 	for (int row = 0; row < bufferHeight; row++)
 	{
 		strncpy_s(rowBuffer, bufferWidth + 1, mazeBuffer + (bufferWidth * row), bufferWidth);
@@ -224,12 +254,12 @@ void LoadConfiguration(int width, int height, uint8_t* wallConfiguration)
 
 	populateBuffer(h, mazeBuffer, width, height);
 
-	int bufferWidth = calcBufferForDimension(width);
+	int bufferWidth = calcBufferForWidth(width);
 	char* rowBuffer = (char*)malloc(bufferWidth + 1);
 	rowBuffer[bufferWidth] = '\0';
 	std::cout << std::endl;
 
-	int bufferHeight = calcBufferForDimension(height);
+	int bufferHeight = calcBufferForHeight(height);
 	for (int row = 0; row < bufferHeight; row++)
 	{
 		strncpy_s(rowBuffer, bufferWidth + 1, mazeBuffer + (bufferWidth * row), bufferWidth);
