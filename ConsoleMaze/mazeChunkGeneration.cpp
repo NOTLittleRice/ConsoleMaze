@@ -47,7 +47,7 @@ uint8_t* generateWallConfigurations(int width, int height)
 
 	Coordinate bounds = Coordinate{ width, height };
 	// coordinate to begin maze generation from
-	Coordinate startingCoord = Coordinate{ 0, 0 };
+	Coordinate startingCoord = Coordinate{ width / 2, height / 2 };
 	
 	for (int y = 0; y < bounds.y; y++)
 	{
