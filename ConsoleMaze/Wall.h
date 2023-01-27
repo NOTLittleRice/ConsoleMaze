@@ -3,7 +3,8 @@
 enum WallBit : uint8_t
 {
 	LEFT_WALL_BIT = 0,
-	TOP_WALL_BIT
+	TOP_WALL_BIT,
+	NUM_BITS // can be used to make adjacent bits for determining whether or not wall is visible
 };
 
 enum Wall : uint8_t
