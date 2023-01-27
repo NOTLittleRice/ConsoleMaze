@@ -75,19 +75,6 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 			buffer[topLeftCorner + UNIT_HEIGHT_IN_BUFFER * rowPixelWidth] = cornerChar; // bottom left corner of square
 			buffer[topLeftCorner + UNIT_HEIGHT_IN_BUFFER * rowPixelWidth + UNIT_WIDTH_IN_BUFFER] = cornerChar; // bottom right corner of square
 
-			if (((walls & RIGHT_WALL) >> RIGHT_WALL_BIT) % 2)
-			{
-				charUsed = wallChar;
-			}
-			else
-			{
-				charUsed = unoccupiedChar;
-			}
-			for (int i = 1; i < UNIT_HEIGHT_IN_BUFFER; i++)
-			{
-				buffer[topLeftCorner + (rowPixelWidth * i) + UNIT_WIDTH_IN_BUFFER] = charUsed;
-			}
-
 			if (((walls & LEFT_WALL) >> LEFT_WALL_BIT) % 2)
 			{
 				charUsed = wallChar;
@@ -99,19 +86,6 @@ void populateBuffer(MazeUnit* maze, char* buffer, int width, int height)
 			for (int i = 1; i < UNIT_HEIGHT_IN_BUFFER; i++)
 			{
 				buffer[topLeftCorner + rowPixelWidth * i] = charUsed;
-			}
-
-			if (((walls & BOTTOM_WALL) >> BOTTOM_WALL_BIT) % 2)
-			{
-				charUsed = floorChar;
-			}
-			else
-			{
-				charUsed = unoccupiedChar;
-			}
-			for (int i = 1; i < UNIT_WIDTH_IN_BUFFER; i++)
-			{
-				buffer[topLeftCorner + UNIT_HEIGHT_IN_BUFFER * rowPixelWidth + i] = charUsed;
 			}
 
 			if (((walls & TOP_WALL) >> TOP_WALL_BIT) % 2)
@@ -157,17 +131,18 @@ void emptyCenter()
 	char* mazeBuffer = (char*)malloc(calcBufferGridSize(width, height));
 
 	MazeUnit h[] = {
-		MazeUnit(BOTTOM_WALL | RIGHT_WALL | LEFT_WALL | TOP_WALL),
-		MazeUnit(RIGHT_WALL | LEFT_WALL | TOP_WALL),
-		MazeUnit(BOTTOM_WALL | RIGHT_WALL | LEFT_WALL | TOP_WALL),
 
-		MazeUnit(BOTTOM_WALL | LEFT_WALL | TOP_WALL),
+		MazeUnit(LEFT_WALL | TOP_WALL),
+		MazeUnit(LEFT_WALL | TOP_WALL),
+		MazeUnit(LEFT_WALL | TOP_WALL),
+
+		MazeUnit(LEFT_WALL | TOP_WALL),
 		MazeUnit(0),
-		MazeUnit(BOTTOM_WALL | RIGHT_WALL | TOP_WALL),
+		MazeUnit(TOP_WALL),
 
-		MazeUnit(BOTTOM_WALL | RIGHT_WALL | LEFT_WALL | TOP_WALL),
-		MazeUnit(BOTTOM_WALL | RIGHT_WALL | LEFT_WALL),
-		MazeUnit(BOTTOM_WALL | RIGHT_WALL | LEFT_WALL | TOP_WALL),
+		MazeUnit(LEFT_WALL | TOP_WALL),
+		MazeUnit(LEFT_WALL),
+		MazeUnit(LEFT_WALL | TOP_WALL),
 	};
 	
 	populateBuffer(h, mazeBuffer, width, height);
@@ -194,20 +169,21 @@ void S()
 	char* mazeBuffer = (char*)malloc(calcBufferGridSize(width, height));
 
 	MazeUnit h[] = {
+		
 		MazeUnit(TOP_WALL | LEFT_WALL),
-		MazeUnit(TOP_WALL | RIGHT_WALL),
+		MazeUnit(TOP_WALL),
 
-		MazeUnit(LEFT_WALL | RIGHT_WALL),
-		MazeUnit(LEFT_WALL | RIGHT_WALL | BOTTOM_WALL),
+		MazeUnit(LEFT_WALL),
+		MazeUnit(LEFT_WALL),
 
-		MazeUnit(LEFT_WALL | BOTTOM_WALL),
-		MazeUnit(TOP_WALL | RIGHT_WALL),
+		MazeUnit(LEFT_WALL),
+		MazeUnit(TOP_WALL),
 
-		MazeUnit(TOP_WALL | LEFT_WALL | RIGHT_WALL),
-		MazeUnit(LEFT_WALL | RIGHT_WALL),
+		MazeUnit(TOP_WALL | LEFT_WALL),
+		MazeUnit(LEFT_WALL),
 
-		MazeUnit(LEFT_WALL | BOTTOM_WALL),
-		MazeUnit(RIGHT_WALL | BOTTOM_WALL),
+		MazeUnit(LEFT_WALL),
+		MazeUnit(0),
 
 	};
 	

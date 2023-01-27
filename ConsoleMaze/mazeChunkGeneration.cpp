@@ -177,7 +177,7 @@ void processVerticalLink(uint8_t* wallSet, int linkIdentifier, Coordinate bounds
 	int topLoc = coordinateToIndex(top, bounds);
 	int btmLoc = coordinateToIndex(btm, bounds);
 
-	wallSet[topLoc] = wallSet[topLoc] & compl BOTTOM_WALL;
+	// open top wall on wall to bottom of link
 	wallSet[btmLoc] = wallSet[btmLoc] & compl TOP_WALL;
 }
 
@@ -196,8 +196,6 @@ void processHorizontalLink(uint8_t* wallSet, int linkIdentifier, Coordinate boun
 	int leftLoc = coordinateToIndex(left, bounds);
 	int rightLoc = coordinateToIndex(right, bounds);
 
-	// open right wall on wall to left of link
-	wallSet[leftLoc] = wallSet[leftLoc] & compl RIGHT_WALL;
 	// open left wall on wall to right of link
 	wallSet[rightLoc] = wallSet[rightLoc] & compl LEFT_WALL;
 }
