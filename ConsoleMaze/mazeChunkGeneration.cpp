@@ -5,6 +5,21 @@
 
 // The grid is represented by a 1D array where the rows are stored in sequential order of one another
 
+// Links are essentially walls
+// They represent the connections between the corners of each square
+// The coordinates represent the position of the top-left corner of a square where (0, 0) is the very top-left square's top-left corner
+// This does not keep track of top-right, bottom-left, bottom right corners (i.e. in a 1x1 grid there is only one coordinate (0, 0))
+// x increases the further right you go
+// y increases the further down you go
+
+enum Direction : uint8_t
+{
+	RIGHT_DIRECTION,
+	LEFT_DIRECTION,
+	UP_DIRECTION,
+	DOWN_DIRECTION,
+};
+
 /// <summary>
 /// 
 /// </summary>
@@ -68,6 +83,16 @@ uint8_t* generateWallConfigurations(int width, int height)
 	return wallSet;
 }
 
+/// <summary>
+/// A recursive depth-first search algorithm
+/// Marks visited coordinates in the usedSquares array if visited already, when visited again it exits before branching
+/// Otherwise branches in all directions by calling itself on each adjacent coordinate
+/// </summary>
+/// <param name="wallSet">An array of integers each representing a square and the walls adjacent to it as defined in Wall.h</param>
+/// <param name="coords">A pair of integers representing location in the maze</param>
+/// <param name="bounds">A pair of integers representing the size of the maze</param>
+/// <param name="usedSquares">An array of booleans with each corresponding to a square in the maze, true is visited, false if not</param>
+/// <param name="linkIdentifier">An integer that represents the location of a wall</param>
 void branch(uint8_t* wallSet, Coordinate coords, Coordinate bounds, bool* usedSquares, int linkIdentifier)
 {
 	int location = coordinateToIndex(coords, bounds);
@@ -78,55 +103,46 @@ void branch(uint8_t* wallSet, Coordinate coords, Coordinate bounds, bool* usedSq
 	usedSquares[location] = true;
 	processLink(wallSet, linkIdentifier, bounds);
 
-	uint8_t branchOrder[] = { 0, 1, 2, 3 };
+	Direction branchOrder[] = { 
+		UP_DIRECTION,
+		DOWN_DIRECTION,
+		RIGHT_DIRECTION,
+		LEFT_DIRECTION,
+	};
 	int numPaths = 4;
 
+	// generating random order of directions to go
 	srand(time(NULL) * ((coords.x + 11) * (coords.y + 71) * 89) % 101); // seeding
 	for (int toSwap = 0; toSwap < numPaths - 1; toSwap++)
 	{
 		int range = numPaths - toSwap; // amount that toSwap can be increased by
 		int swapWith = rand() % range;
 
-		uint8_t temp = branchOrder[toSwap];
+		Direction temp = branchOrder[toSwap];
 		branchOrder[toSwap] = branchOrder[swapWith];
 		branchOrder[swapWith] = temp;
 	}
 
-	for (int i = 0; i < 4; i++)
+	// branching each direction once in random order
+	for (int i = 0; i < numPaths; i++)
 	{
 		switch (branchOrder[i])
 		{
-		case 0:
+		case RIGHT_DIRECTION:
 			branch(wallSet, Coordinate{ coords.x + 1 , coords.y }, bounds, usedSquares, findRightLink(coords, bounds));
 			break;
-		case 1:
+		case LEFT_DIRECTION:
 			branch(wallSet, Coordinate{ coords.x - 1 , coords.y }, bounds, usedSquares, findLeftLink(coords, bounds));
 			break;
-		case 2:
+		case DOWN_DIRECTION:
 			branch(wallSet, Coordinate{ coords.x , coords.y + 1 }, bounds, usedSquares, findBottomLink(coords, bounds));
 			break;
-		case 3:
+		case UP_DIRECTION:
 			branch(wallSet, Coordinate{ coords.x , coords.y - 1 }, bounds, usedSquares, findTopLink(coords, bounds));
 			break;
 		}
 	}
 
-	//int testX = 4;
-	//int testY = 1;
-	
-	//branch(wallSet, Coordinate{ coords.x + 1 , coords.y }, bounds, usedSquares, testX * bounds.y + testY);
-	//branch(wallSet, Coordinate{ coords.x - 1 , coords.y }, bounds, usedSquares, 0);
-	//branch(wallSet, Coordinate{ coords.x , coords.y + 1 }, bounds, usedSquares, testX * bounds.y + testY);
-	//branch(wallSet, Coordinate{ coords.x , coords.y - 1 }, bounds, usedSquares, 0);
-	
-	////branch(wallSet, Coordinate{ coords.x + 1 , coords.y }, bounds, usedSquares, findRightLink(coords, bounds));
-	////branch(wallSet, Coordinate{ coords.x , coords.y + 1 }, bounds, usedSquares, findBottomLink(coords, bounds));
-
-	//branch(wallSet, Coordinate{ coords.x , coords.y + 1 }, bounds, usedSquares, findRightLink(coords, bounds));
-	//branch(wallSet, Coordinate{ coords.x + 1 , coords.y }, bounds, usedSquares, findRightLink(coords, bounds));
-	
-
-	
 	return;
 }
 
