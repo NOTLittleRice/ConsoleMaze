@@ -2,7 +2,7 @@
 
 enum WallBit : uint8_t
 {
-	LEFT_WALL_BIT,
+	LEFT_WALL_BIT = 0,
 	TOP_WALL_BIT
 };
 
