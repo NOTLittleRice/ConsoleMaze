@@ -1,0 +1,18 @@
+#pragma once
+
+enum WallBit : uint8_t
+{
+	RIGHT_WALL_BIT = 0,
+	BOTTOM_WALL_BIT,
+	LEFT_WALL_BIT,
+	TOP_WALL_BIT
+};
+
+enum Wall : uint8_t
+{
+	RIGHT_WALL	= 1 << RIGHT_WALL_BIT,	// 0001
+	BOTTOM_WALL = 1 << BOTTOM_WALL_BIT, // 0010
+	LEFT_WALL	= 1 << LEFT_WALL_BIT,	// 0100
+	TOP_WALL	= 1 << TOP_WALL_BIT,	// 1000
+	EVERY_WALL = RIGHT_WALL | BOTTOM_WALL | LEFT_WALL | TOP_WALL
+};
