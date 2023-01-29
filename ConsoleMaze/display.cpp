@@ -91,7 +91,6 @@ int calcBufferGridSize(int width, int height)
 
 void LoadConfiguration(int width, int height, uint8_t* wallConfiguration)
 {
-	//int width = 2, height = 5; // represent dimensions of maze
 	char* mazeBuffer = (char*)malloc(calcBufferGridSize(width, height));
 
 	maze::MazeUnit* h = (maze::MazeUnit*)malloc(sizeof(maze::MazeUnit) * width * height);

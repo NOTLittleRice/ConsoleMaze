@@ -75,7 +75,6 @@ namespace console_maze { namespace maze {
 				// each unit in maze starts out as completely walled
 				wallSet[location] = common::wall::EVERY_WALL;
 				usedSquares[location] = false;
-				//std::cout << (char)('A' + wallSet[location]) << std::endl;
 
 			}
 		}
