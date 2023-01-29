@@ -1,9 +1,10 @@
 #pragma once
+#include "Coordinate.h"
 
-struct Coordinate
-{
-	int x, y;
-};
+namespace console_maze {
+namespace maze {
 
-uint8_t* generateWallConfigurations(int width, int height);
-int coordinateToIndex(Coordinate coords, Coordinate bounds);
+	uint8_t* generateWallConfigurations(int width, int height);
+	int coordinateToIndex(common::Coordinate coords, common::Coordinate bounds);
+
+} }

@@ -133,7 +133,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="display.cpp" />
+    <ClCompile Include="exampleMaze.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mazeChunkGeneration.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Coordinate.h" />
+    <ClInclude Include="Display.h" />
+    <ClInclude Include="ExampleMaze.h" />
+    <ClInclude Include="MazeChunk.h" />
+    <ClInclude Include="MazeChunkGeneration.h" />
+    <ClInclude Include="MazeUnit.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,7 @@
 #pragma once
 
+namespace console_maze { namespace common { namespace wall {
+
 enum WallBit : uint8_t
 {
 	LEFT_WALL_BIT = 0,
@@ -13,3 +15,5 @@ enum Wall : uint8_t
 	TOP_WALL	= 1 << TOP_WALL_BIT,	// 10
 	EVERY_WALL = LEFT_WALL | TOP_WALL
 };
+
+} } }
