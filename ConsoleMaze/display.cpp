@@ -10,6 +10,32 @@ namespace console_maze {
 namespace maze {
 namespace display {
 
+// interface between maze and array of characters representing buffer
+void loadToBuffer(const MazeChunk maze, common::Coordinate center, char* buffer, common::Coordinate bufferSize)
+{
+	// things to keep in mind
+	// size of character buffer
+	// size of each unit in the buffer
+	// assuming we are always in bound of maze for now, do not have proper connections between chunks
+
+	int numHorizontalUnits = (bufferSize.x / display::UNIT_WIDTH_IN_BUFFER) + 1;
+	int numVerticalUnits = (bufferSize.y / display::UNIT_HEIGHT_IN_BUFFER) + 1;
+
+	auto topLeft = common::Coordinate
+	{
+		center.x - numHorizontalUnits / 2,
+		center.y - numVerticalUnits / 2
+	};
+
+	// bottomRight
+	auto bottomRight = common::Coordinate
+	{
+		center.x + (numHorizontalUnits + 1) / 2,
+		center.y + (numVerticalUnits + 1) / 2
+	};
+
+	
+}
 
 // width and height describe dimensions of the maze
 // assumes the buffer correlates to the maze's dimensions where
@@ -89,32 +115,23 @@ int calcBufferGridSize(int width, int height)
 	return calcBufferForWidth(width) * calcBufferForHeight(height);
 }
 
-void LoadConfiguration(int width, int height, uint8_t* wallConfiguration)
+void LoadConfiguration(int width, int height, MazeUnit* wallConfiguration)
 {
 	char* mazeBuffer = (char*)malloc(calcBufferGridSize(width, height));
 
-	maze::MazeUnit* h = (maze::MazeUnit*)malloc(sizeof(maze::MazeUnit) * width * height);
-
-	if (h == nullptr)
+	if (mazeBuffer == nullptr)
 	{
 		throw;
 	}
 
-	auto bounds = common::Coordinate{ width, height };
-	for (int y = 0; y < height; y++)
-	{
-		for (int x = 0; x < width; x++)
-		{
-			auto coords = common::Coordinate{ x, y };
-			int location = maze::coordinateToIndex(coords, bounds);
-			h[location] = maze::MazeUnit(wallConfiguration[location]);
-		}
-	}
-
-	populateBuffer(h, mazeBuffer, width, height);
+	populateBuffer(wallConfiguration, mazeBuffer, width, height);
 
 	int bufferWidth = calcBufferForWidth(width);
 	char* rowBuffer = (char*)malloc(bufferWidth + 1);
+	if (rowBuffer == nullptr)
+	{
+		throw;
+	}
 	rowBuffer[bufferWidth] = '\0';
 	std::cout << std::endl;
 
@@ -123,6 +140,7 @@ void LoadConfiguration(int width, int height, uint8_t* wallConfiguration)
 	{
 		strncpy_s(rowBuffer, bufferWidth + 1, mazeBuffer + (bufferWidth * row), bufferWidth);
 		std::cout << rowBuffer << std::endl;
+
 	}
 
 	free(mazeBuffer);

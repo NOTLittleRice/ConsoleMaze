@@ -133,12 +133,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Coordinate.cpp" />
     <ClCompile Include="display.cpp" />
     <ClCompile Include="exampleMaze.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mazeChunkGeneration.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CharBuffer.h" />
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="ExampleMaze.h" />

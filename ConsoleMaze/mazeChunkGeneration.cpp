@@ -45,7 +45,7 @@ namespace console_maze { namespace maze {
 	int findTopLink(common::Coordinate coords, common::Coordinate bounds);
 	int findLeftLink(common::Coordinate coords, common::Coordinate bounds);
 
-	uint8_t* generateWallConfigurations(int width, int height)
+	MazeUnit* generateWallConfigurations(int width, int height)
 	{
 		// set aside memory appropriate for a width x height amount
 		uint8_t* wallSet = (uint8_t*)malloc(sizeof(uint8_t) * width * height);
@@ -81,7 +81,7 @@ namespace console_maze { namespace maze {
 
 		branch(wallSet, startingCoord, bounds, usedSquares, -1);
 
-		return wallSet;
+		return (MazeUnit*)wallSet;
 	}
 
 	/// <summary>
