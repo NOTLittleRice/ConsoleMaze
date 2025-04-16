@@ -13,10 +13,51 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\maze">
+      <UniqueIdentifier>{24ee22d4-4dd5-4c21-910f-ade2a131528f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common">
+      <UniqueIdentifier>{724ed17a-4b1b-4590-8261-2dd4d3fdd118}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\maze\display">
+      <UniqueIdentifier>{ee37de9b-ae39-442c-892e-3104ce299aa5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mazeChunkGeneration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="display.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="exampleMaze.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Coordinate.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeChunkGeneration.h">
+      <Filter>Header Files\maze</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeUnit.h">
+      <Filter>Header Files\maze</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeChunk.h">
+      <Filter>Header Files\maze</Filter>
+    </ClInclude>
+    <ClInclude Include="Display.h">
+      <Filter>Header Files\maze\display</Filter>
+    </ClInclude>
+    <ClInclude Include="ExampleMaze.h">
+      <Filter>Header Files\maze\display</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
